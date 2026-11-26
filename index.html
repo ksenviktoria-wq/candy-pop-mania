@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#30104f"><title>Candy Pop Mania</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="app">
+  <header class="top"><div class="brand">🍭 CANDY POP <span>MANIA</span></div><div class="tag">SWAP • MATCH • POP!</div></header>
+  <section class="stats">
+    <div><small>SCORE</small><b id="score">0</b></div>
+    <div><small>TARGET</small><b id="target">1500</b></div>
+    <div><small>TIME</small><b id="time">01:30</b></div>
+  </section>
+  <div class="progress"><i id="progress"></i></div>
+  <section class="game-card">
+    <div class="game-head"><span id="status">Match 3 or more candies!</span><button id="soundBtn" aria-label="Toggle sound">🔊</button></div>
+    <div id="board" class="board" aria-label="Candy game board"></div>
+    <div class="tip">👆 Tap a candy, then an adjacent candy to swap</div>
+  </section>
+  <div class="actions"><button class="main-btn" id="startBtn">▶ START GAME</button><button class="alt-btn" id="restartBtn">↻ RESTART</button></div>
+  <p class="foot">A SWEET LITTLE ARCADE ADVENTURE</p>
+</main>
+<div class="modal show" id="modal"><div class="modal-box"><div class="modal-candy">🍬🍭🍬</div><h1 id="modalTitle">Ready to pop?</h1><p id="modalText">Match 3 or more candies. Reach 1,500 points before time runs out!</p><button class="main-btn" id="modalBtn">LET'S PLAY!</button></div></div>
+<script src="game.js"></script>
+</body></html>
