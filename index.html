@@ -3,477 +3,431 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="theme-color" content="#190d36">
-<title>Candy Pop Mania - Sweet Match Adventure</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Candy Pop Mania</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800;900&display=swap');
-:root{--bg:#190d36;--pink:#ff4fa3;--gold:#ffd65a;--white:#fff}
+:root{--pink:#ff4da6;--purple:#6737b9;--gold:#ffe36e}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;color:white;font-family:'Nunito',sans-serif;background:radial-gradient(ellipse at 50% 0%,#59318c 0%,#251044 45%,#100820 100%);overflow-x:hidden}
-button{font:inherit;cursor:pointer;border:0;color:white}
-.app{width:min(100%,520px);margin:auto;padding:16px 14px 30px;position:relative}
-.top{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.logo{font-family:'Baloo 2';font-size:clamp(25px,7vw,37px);font-weight:800;line-height:1.05;text-shadow:0 3px 0 #8d236c,0 6px 16px #0008}
-.logo span{color:#ffdb60}
-.highscore{background:#ffffff18;border:1px solid #ffffff26;border-radius:15px;padding:8px 12px;text-align:center;font-size:11px;font-weight:900}
-.highscore strong{display:block;color:#ffe16b;font-size:17px}
-.subtitle{text-align:center;color:#e7d5ff;font-size:12px;letter-spacing:2px;font-weight:900;margin:8px 0 14px}
-.modebar{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
-.mode{border-radius:14px;padding:10px 6px;background:#ffffff15;border:1px solid #ffffff25;font-weight:900;font-size:13px}
-.mode.active{background:linear-gradient(135deg,#ff4fa3,#a43dff);box-shadow:0 4px 16px #d13dba66;border-color:#ffb2e0}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
-.stat{background:linear-gradient(150deg,#ffffff20,#ffffff0b);border:1px solid #ffffff22;border-radius:15px;text-align:center;padding:8px 3px;box-shadow:inset 0 1px #ffffff20}
-.stat small{display:block;color:#d9c6f3;font-size:10px;font-weight:900;letter-spacing:1px}
-.stat strong{font-family:'Baloo 2';font-size:23px;line-height:1.25}
-#score{color:#ffe16b}#moves{color:#ff9dd0}#level{color:#9deeff}
-.goal{background:#130927a8;border:1px solid #ffffff20;border-radius:14px;padding:10px 13px;margin-bottom:12px}
-.goalrow{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:900;margin-bottom:7px}
-.goalrow span:last-child{color:#ffe16b}
-.track{height:9px;background:#ffffff20;border-radius:20px;overflow:hidden}
-#progress{height:100%;width:0%;border-radius:20px;background:linear-gradient(90deg,#ff4fa3,#ffd65a);transition:width .3s}
-.boardframe{padding:8px;border-radius:20px;background:linear-gradient(145deg,#f9a8ff,#8e50d6 45%,#42206f);box-shadow:0 12px 30px #0007,inset 0 2px 3px #fff9}
-#board{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;padding:5px;border-radius:14px;background:#170c31;touch-action:none;user-select:none}
-.tile{aspect-ratio:1;min-width:0;display:grid;place-items:center;border-radius:11px;background:linear-gradient(145deg,#ffffff16,#ffffff06);position:relative;overflow:hidden;transition:transform .12s,filter .12s;cursor:grab}
-.tile:before{content:"";position:absolute;inset:1px;border-radius:10px;background:linear-gradient(135deg,#ffffff0c,transparent 55%);pointer-events:none}
-.tile.selected{outline:3px solid #fff;transform:scale(.91);filter:brightness(1.3)}
-.candy{width:79%;height:79%;border-radius:30% 35% 30% 35%;display:grid;place-items:center;position:relative;font-size:clamp(15px,5vw,25px);font-weight:900;text-shadow:0 2px 3px #0005;box-shadow:inset 3px 4px 5px #ffffffa6,inset -4px -6px 7px #0004,0 4px 5px #0006;transform:rotate(-7deg);animation:pop .22s ease-out}
-.candy:after{content:"";position:absolute;left:17%;top:10%;width:30%;height:15%;border-radius:50%;background:#ffffff99;filter:blur(1px);transform:rotate(-25deg)}
-.c0{background:linear-gradient(145deg,#7eeaff,#1687ff 65%,#1453c6)}
-.c1{background:linear-gradient(145deg,#a5ff9b,#29cb72 65%,#138449)}
-.c2{background:linear-gradient(145deg,#ff9aa9,#ff3f68 65%,#b91653)}
-.c3{background:linear-gradient(145deg,#e5a4ff,#a34dff 65%,#6521c5)}
-.c4{background:linear-gradient(145deg,#fff39b,#ffad24 65%,#d96b0c)}
-.c5{background:linear-gradient(145deg,#9ffff0,#21d9c7 65%,#078b9e)}
-.special{outline:2px solid #fff;box-shadow:0 0 12px #fff, inset 3px 4px 5px #ffffffa6,inset -4px -6px 7px #0004,0 4px 5px #0006}
-.tile.matched{animation:vanish .24s forwards}
-@keyframes pop{from{transform:scale(.35) rotate(-20deg)}to{transform:scale(1) rotate(-7deg)}}
-@keyframes vanish{to{transform:scale(1.7) rotate(35deg);opacity:0;filter:brightness(3)}}
-@keyframes shake{25%{transform:translateX(-4px)}50%{transform:translateX(4px)}75%{transform:translateX(-2px)}}
-.shake{animation:shake .22s}
-.controls{display:flex;gap:9px;margin-top:13px}
-.action{flex:1;border-radius:14px;padding:12px 8px;font-weight:900;font-size:13px;background:linear-gradient(135deg,#ff5ca8,#c13cff);box-shadow:0 4px 0 #70208c,0 8px 14px #0004}
-.action:active,.mode:active{transform:translateY(2px)}
-.action.alt{background:linear-gradient(135deg,#398dff,#6150db);box-shadow:0 4px 0 #30318b,0 8px 14px #0004}
-.hint{text-align:center;color:#d5c4ef;font-size:11px;margin:12px 0 0}
-#message{text-align:center;min-height:20px;color:#ffe58a;font-size:12px;font-weight:900;margin-top:8px}
-.overlay{position:fixed;inset:0;background:#100720d9;backdrop-filter:blur(8px);display:grid;place-items:center;padding:20px;z-index:10}
-.overlay.hidden{display:none}
-.dialog{width:min(100%,370px);text-align:center;border-radius:25px;padding:25px 20px;background:linear-gradient(155deg,#63349a,#281044 75%);border:2px solid #e9a4ff;box-shadow:0 15px 55px #0009,inset 0 1px #fff7}
-.dialog .emoji{font-size:56px;filter:drop-shadow(0 5px 5px #0005)}
-.dialog h2{font-family:'Baloo 2';font-size:32px;line-height:1.1;margin:8px 0;color:#ffe16b}
-.dialog p{color:#eadcfb;font-size:14px;line-height:1.5}
-.dialog .action{width:100%;margin-top:10px;padding:14px}
-.tiny{font-size:10px;color:#c9b5e6;margin-top:14px}
-@media(min-width:500px){.app{padding-top:22px}#board{gap:5px;padding:7px}.tile{border-radius:13px}}
+body{margin:0;min-height:100vh;font-family:Fredoka,system-ui;background:radial-gradient(circle at 50% 0%,#5534a0,#201448 65%,#130c30);color:white;text-align:center;overflow-x:hidden}
+header{padding:18px 10px 8px}
+h1{font-family:Bungee,cursive;font-size:clamp(23px,6vw,38px);margin:0;color:#fff;text-shadow:0 4px 0 #a62d91,0 7px 18px #ff4da6}
+.subtitle{color:#e7d9ff;font-size:13px;margin-top:4px}
+.stats{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:13px auto;max-width:500px;padding:0 10px}
+.stat{background:#ffffff18;border:1px solid #ffffff30;border-radius:15px;padding:8px 14px;min-width:92px;box-shadow:inset 0 1px #ffffff25}
+.stat small{display:block;color:#d8c9ff;font-size:11px}
+.stat strong{font-size:20px;color:#fff}
+.controls{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:10px}
+button{font-family:Fredoka;cursor:pointer;border:0}
+.pill{padding:9px 15px;border-radius:30px;color:white;font-weight:700;background:linear-gradient(135deg,#ff54ad,#963bce);box-shadow:0 4px 0 #54217e,0 7px 14px #0004}
+.pill:active{transform:translateY(3px);box-shadow:0 1px 0 #54217e}
+.pill.secondary{background:linear-gradient(135deg,#3979f6,#6551d7);box-shadow:0 4px 0 #283b91}
+#gameWrap{position:relative;width:min(94vw,490px);margin:12px auto 20px}
+#board{position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;border-radius:20px;border:4px solid #ffffff65;background:linear-gradient(145deg,#302064,#24134f);box-shadow:0 12px 35px #08031caa,inset 0 0 20px #0006;touch-action:none}
+.cellbg{position:absolute;width:12.5%;height:12.5%;border:1px solid #ffffff0b;background:#ffffff09}
+.cellbg:nth-child(4n){background:#ffffff12}
+.candy{position:absolute;left:0;top:0;width:12.5%;height:12.5%;padding:5px;display:flex;align-items:center;justify-content:center;z-index:2;transition:transform .27s cubic-bezier(.2,.8,.25,1),opacity .2s,filter .2s;will-change:transform;user-select:none}
+.candy .orb{width:100%;height:100%;border-radius:35%;display:flex;align-items:center;justify-content:center;font-size:clamp(21px,6vw,37px);position:relative;border:2px solid #ffffff80;box-shadow:inset 0 4px 5px #ffffff90,inset 0 -5px 7px #0003,0 4px 5px #0005;transform:rotate(-4deg)}
+.candy .orb:before{content:"";position:absolute;width:35%;height:17%;border-radius:50%;background:#ffffff9c;top:12%;left:17%;transform:rotate(-30deg);filter:blur(1px)}
+.candy.selected .orb{filter:brightness(1.3);outline:3px solid white;transform:scale(1.1) rotate(0)}
+.red{background:linear-gradient(145deg,#ff9caa,#fa2861)}
+.blue{background:linear-gradient(145deg,#9beaff,#2478f5)}
+.green{background:linear-gradient(145deg,#baff9c,#27c56c)}
+.yellow{background:linear-gradient(145deg,#fff5a1,#ffb51f)}
+.purple{background:linear-gradient(145deg,#e5a5ff,#9438e9)}
+.orange{background:linear-gradient(145deg,#ffd09a,#ff762b)}
+.candy.striped .orb{border:3px dashed #fff;box-shadow:0 0 12px #fff,inset 0 0 10px #fff8}
+.candy.wrapped .orb{border:3px solid #fff;box-shadow:0 0 12px #ffb8ff,inset 0 0 12px #fff8}
+.candy.rainbow .orb{background:conic-gradient(#ff4b62,#ffbd38,#f5ef54,#49dc86,#39aaff,#b35aff,#ff4bba,#ff4b62);border:3px solid white;box-shadow:0 0 16px #fff,0 0 22px #ff69d4}
+.candy.popout{opacity:0;filter:brightness(2);transform:scale(.15)!important}
+.candy.spawn{animation:spawn .28s cubic-bezier(.2,1.6,.4,1)}
+@keyframes spawn{from{opacity:0;scale:.3}to{opacity:1;scale:1}}
+#celebration{position:absolute;z-index:10;pointer-events:none;left:50%;top:43%;transform:translate(-50%,-50%) scale(.2);opacity:0;font-family:Bungee,cursive;font-size:clamp(22px,7vw,42px);line-height:1.15;width:120%;color:#fff;text-shadow:0 4px 0 #a3299b,0 7px 0 #5a268d,0 0 18px #ffb9f1;white-space:normal}
+#celebration.show{animation:celebrate 1.35s ease-out forwards}
+@keyframes celebrate{0%{opacity:0;transform:translate(-50%,-50%) scale(.25) rotate(-9deg)}15%{opacity:1;transform:translate(-50%,-50%) scale(1.18) rotate(3deg)}28%{transform:translate(-50%,-50%) scale(1) rotate(0)}78%{opacity:1}100%{opacity:0;transform:translate(-50%,-65%) scale(.9)}}
+.floatScore{position:absolute;z-index:8;pointer-events:none;font-family:Bungee;color:#fff;text-shadow:0 2px 5px #54217e;font-size:16px;animation:floatup .9s ease-out forwards}
+@keyframes floatup{to{transform:translateY(-42px) scale(1.3);opacity:0}}
+.particle{position:absolute;z-index:7;width:8px;height:8px;border-radius:50%;pointer-events:none;animation:particle .65s ease-out forwards}
+@keyframes particle{to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
+#hint{min-height:22px;color:#e9dfff;font-size:13px;margin:5px}
+footer{font-size:11px;color:#bdb0e3;padding:8px 12px 24px}
+#overlay{display:none;position:fixed;inset:0;z-index:30;background:#100829dd;align-items:center;justify-content:center;padding:20px}
+#overlay.show{display:flex}
+.modal{width:min(90vw,350px);padding:25px 20px;border-radius:24px;background:linear-gradient(145deg,#7544c8,#30205f);border:2px solid #ffffff55;box-shadow:0 15px 50px #0009}
+.modal h2{font-family:Bungee;margin:0 0 8px;color:#ffe36e}
+.modal p{color:#eee3ff}
+@media(max-width:380px){.stat{min-width:78px;padding:7px 9px}.candy{padding:3px}}
 </style>
 </head>
 <body>
-<div class="app">
-  <div class="top">
-    <div class="logo">CANDY <span>POP</span><br>MANIA</div>
-    <div class="highscore">🏆 BEST SCORE<strong id="best">0</strong></div>
-  </div>
-  <div class="subtitle">✨ THE SWEETEST PUZZLE ADVENTURE ✨</div>
+<header>
+<h1>🍭 CANDY POP MANIA</h1>
+<div class="subtitle">Swipe • Match • Blast • Repeat!</div>
+</header>
 
-  <div class="modebar">
-    <button class="mode active" id="adventureBtn">🗺️ ADVENTURE</button>
-    <button class="mode" id="endlessBtn">♾️ ENDLESS</button>
-  </div>
-
-  <div class="stats">
-    <div class="stat"><small>SCORE</small><strong id="score">0</strong></div>
-    <div class="stat"><small>MOVES LEFT</small><strong id="moves">25</strong></div>
-    <div class="stat"><small>LEVEL</small><strong id="level">1</strong></div>
-  </div>
-
-  <div class="goal">
-    <div class="goalrow"><span id="goalLabel">🎯 LEVEL GOAL</span><span id="goalText">0 / 1,000</span></div>
-    <div class="track"><div id="progress"></div></div>
-  </div>
-
-  <div class="boardframe"><div id="board" aria-label="Candy game board"></div></div>
-
-  <div class="controls">
-    <button class="action" id="shuffleBtn">🔀 SHUFFLE</button>
-    <button class="action alt" id="hintBtn">💡 HINT</button>
-    <button class="action alt" id="restartBtn">↻ RESET</button>
-  </div>
-  <div id="message">Swipe candies to match 3 or more!</div>
-  <div class="hint">🍬 Match 4 for a STRIPED candy · Match 5 for a RAINBOW candy</div>
+<div class="stats">
+ <div class="stat"><small>SCORE</small><strong id="score">0</strong></div>
+ <div class="stat"><small>MOVES</small><strong id="moves">30</strong></div>
+ <div class="stat"><small>BEST</small><strong id="best">0</strong></div>
 </div>
 
-<div class="overlay" id="overlay">
-  <div class="dialog">
-    <div class="emoji" id="modalEmoji">🍭</div>
-    <h2 id="modalTitle">Welcome, Candy Master!</h2>
-    <p id="modalText">Match candies, create combos and become the ultimate Candy Pop champion!</p>
-    <button class="action" id="playBtn">LET'S PLAY! 🍬</button>
-    <div class="tiny">A sweet little adventure awaits...</div>
-  </div>
+<div class="controls">
+ <button class="pill" id="newGame">↻ New Game</button>
+ <button class="pill secondary" id="hintBtn">✦ Hint</button>
+ <button class="pill secondary" id="modeBtn">Adventure</button>
+</div>
+
+<div id="gameWrap">
+ <div id="board" aria-label="Candy game board"></div>
+ <div id="celebration"></div>
+</div>
+<div id="hint">Swipe a candy to match 3 or more!</div>
+<footer>Match 4 = Striped • Match 5 = Rainbow • T/L = Wrapped Bomb<br>Made for candy lovers ✨</footer>
+
+<div id="overlay">
+ <div class="modal">
+  <h2 id="endTitle">SUGAR RUSH!</h2>
+  <p id="endText">Great game!</p>
+  <button class="pill" id="againBtn">Play Again 🍬</button>
+ </div>
 </div>
 
 <script>
-(() => {
-'use strict';
-const $ = id => document.getElementById(id);
-const boardEl = $('board');
-const COLORS = 6;
-const ICONS = ['💎','🍀','🍓','🍇','🍊','🫧'];
-const LEVEL_GOAL = level => 900 + (level - 1) * 350;
-const LEVEL_MOVES = level => Math.max(16, 25 - Math.floor((level - 1) / 2));
-let board = [], score = 0, level = 1, moves = 25, mode = 'adventure';
-let busy = false, started = false, selected = null, pointerStart = null;
-let endlessTime = 90, clock = null, best = Number(localStorage.getItem('candyPopBest') || 0);
-$('best').textContent = best.toLocaleString();
+(()=>{
+const N=8, COLORS=["red","blue","green","yellow","purple","orange"];
+const EMOJI={red:"🍓",blue:"💎",green:"🍏",yellow:"🍋",purple:"🍇",orange:"🍊"};
+const boardEl=document.getElementById("board");
+const scoreEl=document.getElementById("score"),movesEl=document.getElementById("moves"),bestEl=document.getElementById("best");
+const hintEl=document.getElementById("hint"),celebration=document.getElementById("celebration");
+let grid=[],nodes=new Map(),nextId=1,score=0,moves=30,best=Number(localStorage.getItem("cpmBest")||0);
+let busy=false,selected=null,mode="Adventure",endless=false,celebrateTimer=null,lastSwap=null;
+bestEl.textContent=best;
 
-const rand = () => Math.floor(Math.random() * COLORS);
-const makeCandy = (c = rand(), special = '') => ({c, special});
-const goal = () => mode === 'adventure' ? LEVEL_GOAL(level) : 0;
-const say = text => $('message').textContent = text;
-
-function updateUI() {
-  $('score').textContent = score.toLocaleString();
-  $('moves').textContent = mode === 'endless' ? endlessTime + 's' : moves;
-  $('level').textContent = mode === 'endless' ? '∞' : level;
-  $('best').textContent = best.toLocaleString();
-  $('goalLabel').textContent = mode === 'endless' ? '⏱️ TIME CHALLENGE' : '🎯 LEVEL GOAL';
-  $('goalText').textContent = mode === 'endless'
-    ? 'Beat your best score!'
-    : score.toLocaleString() + ' / ' + goal().toLocaleString();
-  $('progress').style.width = mode === 'endless' ? '100%' :
-    Math.min(100, score / goal() * 100) + '%';
+function candy(color,special=""){
+ return {id:nextId++,color,special};
 }
-
-function initialBoard() {
-  board = [];
-  for (let r = 0; r < 8; r++) {
-    board[r] = [];
-    for (let c = 0; c < 8; c++) {
-      let color;
-      do { color = rand(); }
-      while ((c >= 2 && board[r][c-1].c === color && board[r][c-2].c === color) ||
-             (r >= 2 && board[r-1][c].c === color && board[r-2][c].c === color));
-      board[r][c] = makeCandy(color);
-    }
+function randomColor(){return COLORS[Math.floor(Math.random()*COLORS.length)]}
+function key(r,c){return r+","+c}
+function coords(k){return k.split(",").map(Number)}
+function inside(r,c){return r>=0&&r<N&&c>=0&&c<N}
+function sleep(ms){return new Promise(resolve=>setTimeout(resolve,ms))}
+function setHint(t){hintEl.textContent=t}
+function makeBoard(){
+ grid=Array.from({length:N},()=>Array(N).fill(null));
+ for(let r=0;r<N;r++)for(let c=0;c<N;c++){
+  let col;
+  do{col=randomColor()}while(
+   (c>=2&&grid[r][c-1]?.color===col&&grid[r][c-2]?.color===col)||
+   (r>=2&&grid[r-1][c]?.color===col&&grid[r-2][c]?.color===col)
+  );
+  grid[r][c]=candy(col);
+ }
+}
+function initBackground(){
+ boardEl.querySelectorAll(".cellbg").forEach(x=>x.remove());
+ for(let r=0;r<N;r++)for(let c=0;c<N;c++){
+  const d=document.createElement("div");d.className="cellbg";
+  d.style.left=(c*12.5)+"%";d.style.top=(r*12.5)+"%";
+  boardEl.appendChild(d);
+ }
+}
+function render(){
+ const live=new Set();
+ const size=boardEl.clientWidth/N;
+ for(let r=0;r<N;r++)for(let c=0;c<N;c++){
+  const x=grid[r][c];if(!x)continue;
+  live.add(x.id);
+  let el=nodes.get(x.id);
+  if(!el){
+   el=document.createElement("div");el.className="candy spawn";
+   el.dataset.id=x.id;
+   const orb=document.createElement("div");orb.className="orb";
+   el.appendChild(orb);boardEl.appendChild(el);nodes.set(x.id,el);
+   requestAnimationFrame(()=>el.classList.remove("spawn"));
   }
-}
-
-function render() {
-  boardEl.innerHTML = '';
-  for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
-    const candy = board[r][c];
-    const tile = document.createElement('div');
-    tile.className = 'tile' + (selected && selected.r === r && selected.c === c ? ' selected' : '');
-    tile.dataset.r = r; tile.dataset.c = c;
-    if (candy) {
-      const gem = document.createElement('div');
-      gem.className = 'candy c' + candy.c + (candy.special ? ' special' : '');
-      gem.textContent = candy.special === 'rainbow' ? '🌈' :
-        candy.special === 'row' ? '⚡' :
-        candy.special === 'col' ? '↕️' : ICONS[candy.c];
-      tile.appendChild(gem);
-    }
-    boardEl.appendChild(tile);
+  el.className="candy"+(selected&&selected.r===r&&selected.c===c?" selected":"")+(x.special?" "+x.special:"");
+  const orb=el.firstChild;
+  orb.className="orb "+x.color;
+  orb.textContent=x.special==="rainbow"?"🌈":x.special==="wrapped"?"💣":x.special==="striped"?(x.direction==="v"?"↕":"↔"):EMOJI[x.color];
+  el.style.width=size+"px";el.style.height=size+"px";
+  el.style.transform=`translate(${c*size}px,${r*size}px)`;
+ }
+ for(const [id,el] of nodes){
+  if(!live.has(id)){
+   el.classList.add("popout");
+   setTimeout(()=>{el.remove();nodes.delete(id)},230);
   }
+ }
+ scoreEl.textContent=score.toLocaleString();
+ movesEl.textContent=endless?"∞":moves;
+ bestEl.textContent=best.toLocaleString();
 }
-
-function findMatches() {
-  const groups = [];
-  for (let r = 0; r < 8; r++) {
-    let start = 0;
-    while (start < 8) {
-      const color = board[r][start]?.c;
-      let end = start + 1;
-      while (color !== undefined && end < 8 && board[r][end]?.c === color) end++;
-      if (color !== undefined && end - start >= 3) {
-        groups.push({cells:Array.from({length:end-start},(_,i)=>({r,c:start+i})),dir:'row'});
-      }
-      start = end;
-    }
+function showWords(word){
+ celebration.textContent=word;
+ celebration.classList.remove("show");
+ void celebration.offsetWidth;
+ celebration.classList.add("show");
+ clearTimeout(celebrateTimer);
+ celebrateTimer=setTimeout(()=>celebration.classList.remove("show"),1450);
+}
+function floating(text,r,c){
+ const size=boardEl.clientWidth/N;
+ const el=document.createElement("div");el.className="floatScore";el.textContent=text;
+ el.style.left=(c*size+size/2-22)+"px";el.style.top=(r*size+size/2-12)+"px";
+ boardEl.appendChild(el);setTimeout(()=>el.remove(),950);
+}
+function burst(r,c){
+ const size=boardEl.clientWidth/N;
+ for(let i=0;i<7;i++){
+  const p=document.createElement("i");p.className="particle";
+  p.style.left=(c*size+size/2)+"px";p.style.top=(r*size+size/2)+"px";
+  p.style.background=["#fff36c","#ff69bd","#7ceaff","#aaff8a"][i%4];
+  p.style.setProperty("--dx",(Math.random()*90-45)+"px");
+  p.style.setProperty("--dy",(Math.random()*90-45)+"px");
+  boardEl.appendChild(p);setTimeout(()=>p.remove(),700);
+ }
+}
+function findMatches(){
+ const runs=[];
+ for(let r=0;r<N;r++){
+  let c=0;
+  while(c<N){
+   let end=c+1;
+   while(end<N&&grid[r][end]&&grid[r][c]&&grid[r][end].color===grid[r][c].color&&!grid[r][end].special&&!grid[r][c].special)end++;
+   if(grid[r][c]&&!grid[r][c].special&&end-c>=3)runs.push({cells:Array.from({length:end-c},(_,i)=>key(r,c+i)),dir:"h",len:end-c});
+   c=end;
   }
-  for (let c = 0; c < 8; c++) {
-    let start = 0;
-    while (start < 8) {
-      const color = board[start][c]?.c;
-      let end = start + 1;
-      while (color !== undefined && end < 8 && board[end][c]?.c === color) end++;
-      if (color !== undefined && end - start >= 3) {
-        groups.push({cells:Array.from({length:end-start},(_,i)=>({r:start+i,c})),dir:'col'});
-      }
-      start = end;
-    }
+ }
+ for(let c=0;c<N;c++){
+  let r=0;
+  while(r<N){
+   let end=r+1;
+   while(end<N&&grid[end][c]&&grid[r][c]&&grid[end][c].color===grid[r][c].color&&!grid[end][c].special&&!grid[r][c].special)end++;
+   if(grid[r][c]&&!grid[r][c].special&&end-r>=3)runs.push({cells:Array.from({length:end-r},(_,i)=>key(r+i,c)),dir:"v",len:end-r});
+   r=end;
   }
-  return groups;
+ }
+ // Merge crossing and touching runs into match groups.
+ const groups=[];
+ for(const run of runs){
+  let touching=groups.filter(g=>run.cells.some(k=>g.cells.has(k)));
+  if(!touching.length){groups.push({cells:new Set(run.cells),runs:[run]});continue}
+  const first=touching[0];
+  run.cells.forEach(k=>first.cells.add(k));first.runs.push(run);
+  for(const other of touching.slice(1)){other.cells.forEach(k=>first.cells.add(k));first.runs.push(...other.runs);groups.splice(groups.indexOf(other),1)}
+ }
+ return groups;
 }
-
-const key = p => p.r + ',' + p.c;
-
-function expandSpecials(cells) {
-  const all = new Map(cells.map(p => [key(p),p]));
-  let changed = true;
-  while (changed) {
-    changed = false;
-    for (const p of [...all.values()]) {
-      const candy = board[p.r]?.[p.c];
-      if (!candy?.special) continue;
-      const add = [];
-      if (candy.special === 'row') for (let c=0;c<8;c++) add.push({r:p.r,c});
-      if (candy.special === 'col') for (let r=0;r<8;r++) add.push({r,c:p.c});
-      if (candy.special === 'rainbow') {
-        for(let r=0;r<8;r++) for(let c=0;c<8;c++)
-          if(board[r][c]?.c === candy.c) add.push({r,c});
-      }
-      for(const q of add) if(!all.has(key(q))) {all.set(key(q),q);changed=true;}
-    }
+function specialFor(group){
+ const runs=group.runs;
+ if(runs.some(a=>a.dir==="h")&&runs.some(a=>a.dir==="v"))return "wrapped";
+ if(runs.some(a=>a.len>=5))return "rainbow";
+ if(runs.some(a=>a.len===4))return "striped";
+ return "";
+}
+function chooseKeep(group){
+ if(lastSwap){
+  for(const p of lastSwap){if(group.cells.has(key(p.r,p.c))&&grid[p.r][p.c])return key(p.r,p.c)}
+ }
+ return [...group.cells][Math.floor(group.cells.size/2)];
+}
+function activate(k,clear,queue,targetColor){
+ const [r,c]=coords(k);if(!inside(r,c))return;
+ const x=grid[r][c];if(!x)return;
+ if(x.special==="striped"){
+  for(let i=0;i<N;i++){clear.add(key(r,i));clear.add(key(i,c))}
+ }else if(x.special==="wrapped"){
+  for(let rr=r-1;rr<=r+1;rr++)for(let cc=c-1;cc<=c+1;cc++)if(inside(rr,cc))clear.add(key(rr,cc));
+ }else if(x.special==="rainbow"){
+  const col=targetColor||randomColor();
+  for(let rr=0;rr<N;rr++)for(let cc=0;cc<N;cc++)if(grid[rr][cc]?.color===col)clear.add(key(rr,cc));
+ }
+}
+function expandSpecials(clear,targetColor){
+ const queue=[...clear],seen=new Set();
+ while(queue.length){
+  const k=queue.shift();if(seen.has(k))continue;seen.add(k);
+  const [r,c]=coords(k),x=grid[r]?.[c];
+  if(x?.special){
+   const before=new Set(clear);activate(k,clear,queue,targetColor);
+   for(const item of clear)if(!before.has(item))queue.push(item);
   }
-  return [...all.values()];
+ }
 }
-
-function swap(a,b) {
-  const temp = board[a.r][a.c];
-  board[a.r][a.c] = board[b.r][b.c];
-  board[b.r][b.c] = temp;
-}
-
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-
-async function resolveBoard(firstGroup = null) {
-  let combo = 0;
-  let pendingGroups = firstGroup || findMatches();
-  while (pendingGroups.length && combo < 12) {
-    combo++;
-    const matched = new Map();
-    let specialSpot = null, specialCandy = null;
-    for (const group of pendingGroups) {
-      if (group.cells.length >= 4 && !specialSpot) {
-        specialSpot = group.cells[Math.floor(group.cells.length/2)];
-        specialCandy = makeCandy(board[specialSpot.r][specialSpot.c].c,
-          group.cells.length >= 5 ? 'rainbow' : group.dir);
-      }
-      for (const p of group.cells) matched.set(key(p),p);
-    }
-    const cleared = expandSpecials([...matched.values()]);
-    if (specialSpot && cleared.some(p => key(p) === key(specialSpot))) {
-      matched.delete(key(specialSpot));
-    }
-    const total = cleared.length;
-    score += total * 10 * combo;
-    say(combo > 1 ? '🔥 ' + combo + 'x COMBO! AMAZING!' : '✨ SWEET MATCH!');
-    for (const p of cleared) {
-      if (specialSpot && key(p) === key(specialSpot)) continue;
-      const tile = boardEl.querySelector('[data-r="'+p.r+'"][data-c="'+p.c+'"]');
-      if (tile) tile.classList.add('matched');
-    }
-    updateUI();
-    await sleep(230);
-    for (const p of cleared) {
-      if (specialSpot && key(p) === key(specialSpot)) continue;
-      board[p.r][p.c] = null;
-    }
-    if (specialSpot) board[specialSpot.r][specialSpot.c] = specialCandy;
-    for (let c = 0; c < 8; c++) {
-      let write = 7;
-      for (let r = 7; r >= 0; r--) if (board[r][c]) {
-        const item = board[r][c];
-        board[r][c] = null;
-        board[write--][c] = item;
-      }
-      for (let r = write; r >= 0; r--) board[r][c] = makeCandy();
-    }
-    render();
-    await sleep(170);
-    pendingGroups = findMatches();
+function comboClear(a,b){
+ const A=grid[a.r][a.c],B=grid[b.r][b.c],clear=new Set();
+ if(!A||!B)return clear;
+ if(A.special==="rainbow"&&B.special==="rainbow"){
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++)clear.add(key(r,c));
+ }else if(A.special==="rainbow"||B.special==="rainbow"){
+  const rainbow=A.special==="rainbow"?A:B,other=rainbow===A?B:A;
+  const target=other.color;
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++){
+   const x=grid[r][c];
+   if(x?.color===target){
+    if(other.special){x.special=other.special;x.direction=other.direction}
+    clear.add(key(r,c));
+   }
   }
-  updateUI();
+  expandSpecials(clear,target);
+ }else if(A.special==="striped"&&B.special==="striped"){
+  for(let i=0;i<N;i++){clear.add(key(a.r,i));clear.add(key(i,a.c));clear.add(key(b.r,i));clear.add(key(i,b.c))}
+ }else if(A.special==="wrapped"&&B.special==="wrapped"){
+  for(let r=Math.min(a.r,b.r)-2;r<=Math.max(a.r,b.r)+2;r++)
+   for(let c=Math.min(a.c,b.c)-2;c<=Math.max(a.c,b.c)+2;c++)if(inside(r,c))clear.add(key(r,c));
+ }else{
+  // Striped + wrapped: cross blast with a larger center explosion.
+  const center={r:b.r,c:b.c};
+  for(let i=0;i<N;i++){clear.add(key(a.r,i));clear.add(key(i,a.c))}
+  for(let r=center.r-2;r<=center.r+2;r++)for(let c=center.c-2;c<=center.c+2;c++)if(inside(r,c))clear.add(key(r,c));
+ }
+ return clear;
 }
-
-function adjacent(a,b) {
-  return Math.abs(a.r-b.r) + Math.abs(a.c-b.c) === 1;
-}
-
-async function move(a,b) {
-  if (!started || busy || !adjacent(a,b)) return;
-  busy = true; selected = null;
-  swap(a,b); render();
-  await sleep(110);
-  let groups = findMatches();
-  const specialSwap = board[a.r][a.c]?.special || board[b.r][b.c]?.special;
-  if (!groups.length && !specialSwap) {
-    swap(a,b); render(); say('Try another swap! 🍬');
-    busy = false; return;
+function gravity(){
+ for(let c=0;c<N;c++){
+  let write=N-1;
+  for(let r=N-1;r>=0;r--)if(grid[r][c]){
+   const x=grid[r][c];grid[r][c]=null;grid[write][c]=x;write--;
   }
-  if (mode === 'adventure') moves--;
-  await resolveBoard(groups);
-  if (score > best) {
-    best = score; localStorage.setItem('candyPopBest', best);
-    if (!groups.length && specialSwap) {
-  groups = [{cells:[a,b],dir:'row'}];
-                             }
+  for(let r=write;r>=0;r--)grid[r][c]=candy(randomColor());
+ }
+}
+function celebrationFor(groups,chain){
+ const size=Math.max(...groups.map(g=>g.cells.size),0);
+ if(chain>=3)return "UNBELIEVABLE!";
+ if(groups.some(g=>specialFor(g)==="wrapped"))return "TREMENDOUS!";
+ if(groups.some(g=>specialFor(g)==="rainbow"))return "EPIC!";
+ if(groups.some(g=>specialFor(g)==="striped"))return "SWEET!";
+ if(size>=6)return "SUGAR RUSH!";
+ return chain>1?"AMAZING!":"NICE!";
+}
+async function resolve(initialClear=null,targetColor=null){
+ let chain=0,clear=initialClear;
+ while(chain<12){
+  const groups=findMatches();
+  if(!clear&&groups.length===0)break;
+  chain++;
+  if(!clear)clear=new Set();
+  let created=[];
+  for(const g of groups){
+   const type=specialFor(g);
+   if(type){
+    const keep=chooseKeep(g),[r,c]=coords(keep),x=grid[r][c];
+    if(x){x.special=type;x.direction=g.runs.find(run=>run.len===4)?.dir||"h";created.push({r,c,type})}
+    g.cells.forEach(k=>{if(k!==keep)clear.add(k)});
+   }else g.cells.forEach(k=>clear.add(k));
   }
-  updateUI();
-  busy = false;
-  checkEnd();
-}
-
-function checkEnd() {
-  if (mode === 'adventure') {
-    if (score >= goal()) {
-      started = false;
-      showDialog('🏆','LEVEL COMPLETE!', 'Sweet victory! You cleared level ' + level + '. Get ready for the next challenge!', 'NEXT LEVEL 🍭', nextLevel);
-    } else if (moves <= 0) {
-      started = false;
-      showDialog('💜','OUT OF MOVES!', 'Good try, Candy Master! Your score was ' + score.toLocaleString() + '.', 'TRY AGAIN', () => startAdventure(level));
-    }
-  } else if (endlessTime <= 0) {
-    started = false;
-    clearInterval(clock); clock = null;
-    showDialog('⏰','TIME’S UP!', 'You scored ' + score.toLocaleString() + ' points. Can you beat your best?', 'PLAY AGAIN', startEndless);
+  expandSpecials(clear,targetColor);
+  if(!clear.size)break;
+  let count=0,points=[];
+  for(const k of clear){
+   const [r,c]=coords(k),x=grid[r][c];
+   if(x){points.push({r,c});count++}
   }
+  if(!count)break;
+  const gained=count*60*chain;
+  score+=gained;
+  if(score>best){best=score;localStorage.setItem("cpmBest",best)}
+  if(groups.length||chain>1||created.length)showWords(celebrationFor(groups.length?groups:[{cells:clear,runs:[]}],chain));
+  for(const p of points){floating("+"+Math.round(gained/count),p.r,p.c);burst(p.r,p.c)}
+  for(const k of clear){const [r,c]=coords(k);grid[r][c]=null}
+  render();
+  await sleep(230);
+  gravity();render();
+  await sleep(310);
+  clear=null;targetColor=null;
+ }
+ render();
+ if(!endless&&moves<=0){finish()}
 }
-
-function showDialog(emoji,title,txt,button,action) {
-  $('modalEmoji').textContent = emoji;
-  $('modalTitle').textContent = title;
-  $('modalText').textContent = txt;
-  $('playBtn').textContent = button;
-  $('playBtn').onclick = () => { $('overlay').classList.add('hidden'); action(); };
-  $('overlay').classList.remove('hidden');
-}
-
-function nextLevel() {
-  level++;
-  startAdventure(level);
-}
-
-function startAdventure(n = 1) {
-  clearInterval(clock); clock = null;
-  mode = 'adventure'; level = n; score = 0;
-  moves = LEVEL_MOVES(level); started = true;
-  $('adventureBtn').classList.add('active');
-  $('endlessBtn').classList.remove('active');
-  initialBoard(); render(); updateUI();
-  say('Level ' + level + ' — reach ' + goal().toLocaleString() + ' points!');
-}
-
-function startEndless() {
-  clearInterval(clock);
-  mode = 'endless'; score = 0; level = 1; moves = 0;
-  endlessTime = 90; started = true;
-  $('endlessBtn').classList.add('active');
-  $('adventureBtn').classList.remove('active');
-  initialBoard(); render(); updateUI();
-  say('90 seconds! Make every move count! ⚡');
-  clock = setInterval(() => {
-    if (!started) return;
-    endlessTime--;
-    updateUI();
-    if (endlessTime <= 0) checkEnd();
-  }, 1000);
-}
-
-function startSelectedMode() {
-  if (mode === 'endless') startEndless();
-  else startAdventure(level);
-}
-
-function pick(r,c) {
-  if (!started || busy) return;
-  if (!selected) { selected = {r,c}; render(); return; }
-  const next = {r,c};
-  if (selected.r === r && selected.c === c) {
-    selected = null; render(); return;
+async function swap(a,b){
+ if(busy||!inside(b.r,b.c)||!inside(a.r,a.c)||Math.abs(a.r-b.r)+Math.abs(a.c-b.c)!==1)return;
+ const A=grid[a.r][a.c],B=grid[b.r][b.c];if(!A||!B)return;
+ busy=true;selected=null;lastSwap=[a,b];
+ [grid[a.r][a.c],grid[b.r][b.c]]=[B,A];render();
+ await sleep(180);
+ let clear=null;
+ if(A.special||B.special){
+  clear=comboClear(a,b);
+  if(!clear.size){clear=new Set([key(a.r,a.c),key(b.r,b.c)]);expandSpecials(clear,B.color)}
+ }else{
+  const groups=findMatches();
+  if(!groups.length){
+   [grid[a.r][a.c],grid[b.r][b.c]]=[A,B];render();
+   await sleep(170);lastSwap=null;busy=false;return;
   }
-  if (adjacent(selected,next)) {
-    const old = selected; selected = null; move(old,next);
-  } else {
-    selected = next; render();
-  }
+ }
+ if(!endless)moves--;
+ await resolve(clear,B.color);
+ lastSwap=null;busy=false;
+ if(!endless&&moves<=0)finish();
 }
-
-boardEl.addEventListener('pointerdown', e => {
-  const tile = e.target.closest('.tile');
-  if (!tile || !started || busy) return;
-  pointerStart = {r:Number(tile.dataset.r),c:Number(tile.dataset.c),x:e.clientX,y:e.clientY};
-  try { boardEl.setPointerCapture(e.pointerId); } catch (_) {}
+function findHint(){
+ for(let r=0;r<N;r++)for(let c=0;c<N;c++){
+  for(const [dr,dc] of [[0,1],[1,0]]){
+   const rr=r+dr,cc=c+dc;if(!inside(rr,cc))continue;
+   [grid[r][c],grid[rr][cc]]=[grid[rr][cc],grid[r][c]];
+   const yes=findMatches().length>0||grid[r][c]?.special||grid[rr][cc]?.special;
+   [grid[r][c],grid[rr][cc]]=[grid[rr][cc],grid[r][c]];
+   if(yes)return [{r,c},{r:rr,c:cc}];
+  }
+ }
+ return null;
+}
+function finish(){
+ document.getElementById("endTitle").textContent="SUGAR RUSH!";
+ document.getElementById("endText").textContent="You scored "+score.toLocaleString()+" points!";
+ document.getElementById("overlay").classList.add("show");
+}
+function start(){
+ score=0;moves=30;busy=false;selected=null;lastSwap=null;
+ endless=mode==="Endless";
+ makeBoard();initBackground();
+ // Clear any old candy nodes and references.
+ for(const el of nodes.values())el.remove();nodes.clear();
+ render();setHint(endless?"Endless mode — keep matching!":"Make every move count. Good luck!");
+ document.getElementById("overlay").classList.remove("show");
+}
+let pointerStart=null;
+boardEl.addEventListener("pointerdown",e=>{
+ if(busy)return;
+ const rect=boardEl.getBoundingClientRect(),size=rect.width/N;
+ const c=Math.floor((e.clientX-rect.left)/size),r=Math.floor((e.clientY-rect.top)/size);
+ if(!inside(r,c))return;
+ pointerStart={r,c,x:e.clientX,y:e.clientY};
+ boardEl.setPointerCapture?.(e.pointerId);
 });
-boardEl.addEventListener('pointerup', e => {
-  if (!pointerStart) return;
-  const start = pointerStart; pointerStart = null;
-  const dx = e.clientX - start.x, dy = e.clientY - start.y;
-  if (Math.max(Math.abs(dx),Math.abs(dy)) < 12) {
-    pick(start.r,start.c); return;
-  }
-  let r = start.r, c = start.c;
-  if (Math.abs(dx) > Math.abs(dy)) c += dx > 0 ? 1 : -1;
-  else r += dy > 0 ? 1 : -1;
-  if (r>=0 && r<8 && c>=0 && c<8) move(start,{r,c});
+boardEl.addEventListener("pointerup",e=>{
+ if(!pointerStart||busy)return;
+ const startPos=pointerStart;pointerStart=null;
+ const dx=e.clientX-startPos.x,dy=e.clientY-startPos.y;
+ if(Math.max(Math.abs(dx),Math.abs(dy))>12){
+  let r=startPos.r,c=startPos.c;
+  if(Math.abs(dx)>Math.abs(dy))c+=dx>0?1:-1;else r+=dy>0?1:-1;
+  swap(startPos,{r,c});
+ }else{
+  if(!selected){selected=startPos;render()}
+  else if(selected.r===startPos.r&&selected.c===startPos.c){selected=null;render()}
+  else if(Math.abs(selected.r-startPos.r)+Math.abs(selected.c-startPos.c)===1){swap(selected,startPos)}
+  else{selected=startPos;render()}
+ }
 });
-boardEl.addEventListener('pointercancel', () => pointerStart = null);
-
-function findHint() {
-  for(let r=0;r<8;r++) for(let c=0;c<8;c++) {
-    for(const [dr,dc] of [[0,1],[1,0]]) {
-      const nr=r+dr,nc=c+dc;
-      if(nr>=8||nc>=8) continue;
-      swap({r,c},{r:nr,c:nc});
-      const valid = findMatches().length > 0 ||
-        board[r][c]?.special || board[nr][nc]?.special;
-      swap({r,c},{r:nr,c:nc});
-      if(valid) return [{r,c},{r:nr,c:nc}];
-    }
-  }
-  return null;
-}
-
-$('hintBtn').onclick = () => {
-  if (!started || busy) return;
-  const hint = findHint();
-  if (!hint) { say('Shuffling the candies!'); shuffle(); return; }
-  selected = hint[0]; render();
-  setTimeout(() => { selected = null; render(); }, 800);
-  say('💡 Try this move!');
+document.getElementById("newGame").onclick=start;
+document.getElementById("againBtn").onclick=start;
+document.getElementById("modeBtn").onclick=()=>{
+ mode=mode==="Adventure"?"Endless":"Adventure";
+ document.getElementById("modeBtn").textContent=mode;
+ start();
 };
-
-function shuffle() {
-  if (!started || busy) return;
-  const candies = board.flat().filter(Boolean);
-  for(let i=candies.length-1;i>0;i--) {
-    const j=Math.floor(Math.random()*(i+1));
-    [candies[i],candies[j]]=[candies[j],candies[i]];
-  }
-  let i=0;
-  for(let r=0;r<8;r++) for(let c=0;c<8;c++) board[r][c]=candies[i++];
-  if(findMatches().length || !findHint()) {
-    initialBoard();
-  }
-  render(); say('🔀 Fresh candy mix!');
-}
-
-$('shuffleBtn').onclick = shuffle;
-$('restartBtn').onclick = () => {
-  if (mode === 'endless') startEndless();
-  else startAdventure(level);
+document.getElementById("hintBtn").onclick=()=>{
+ if(busy)return;
+ const pair=findHint();
+ if(pair){selected=pair[0];render();setHint("Try this move! ✨");setTimeout(()=>{selected=null;render()},1100)}
+ else setHint("No moves found — start a new game!");
 };
-$('adventureBtn').onclick = () => {
-  if(busy) return;
-  $('overlay').classList.add('hidden');
-  startAdventure(1);
-};
-$('endlessBtn').onclick = () => {
-  if(busy) return;
-  $('overlay').classList.add('hidden');
-  startEndless();
-};
-
-$('playBtn').onclick = () => {
-  $('overlay').classList.add('hidden');
-  startAdventure(1);
-};
-
-initialBoard();
-render();
-updateUI();
+window.addEventListener("resize",render);
+start();
 })();
 </script>
 </body>
