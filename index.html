@@ -4,66 +4,130 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Candy Pop Mania</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Candy Pop Mania — Ultimate Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Bungee&display=swap" rel="stylesheet">
 <style>
-:root{--pink:#ff4da6;--purple:#6737b9;--gold:#ffe36e}
+:root{--pink:#ff4da6;--purple:#6529ae;--gold:#ffe66d}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;font-family:Fredoka,system-ui;background:radial-gradient(circle at 50% 0%,#5534a0,#201448 65%,#130c30);color:white;text-align:center;overflow-x:hidden}
-header{padding:18px 10px 8px}
-h1{font-family:Bungee,cursive;font-size:clamp(23px,6vw,38px);margin:0;color:#fff;text-shadow:0 4px 0 #a62d91,0 7px 18px #ff4da6}
-.subtitle{color:#e7d9ff;font-size:13px;margin-top:4px}
-.stats{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:13px auto;max-width:500px;padding:0 10px}
-.stat{background:#ffffff18;border:1px solid #ffffff30;border-radius:15px;padding:8px 14px;min-width:92px;box-shadow:inset 0 1px #ffffff25}
-.stat small{display:block;color:#d8c9ff;font-size:11px}
-.stat strong{font-size:20px;color:#fff}
+body{
+ margin:0;min-height:100vh;text-align:center;color:white;
+ font-family:Fredoka,system-ui;
+ background:
+ radial-gradient(ellipse at 50% 0%,#fca9e1 0%,transparent 38%),
+ radial-gradient(ellipse at 0% 80%,#6e4bd1,transparent 50%),
+ linear-gradient(145deg,#291451,#140b32);
+ overflow-x:hidden
+}
+header{padding:15px 8px 5px}
+h1{font:clamp(24px,6vw,39px) Bungee;color:#fff;margin:0;
+ text-shadow:0 4px #a32a9c,0 8px 15px #ff60cb}
+.subtitle{font-size:13px;color:#ffe5fa}
+.stats{display:flex;justify-content:center;gap:8px;margin:13px auto;flex-wrap:wrap}
+.stat{background:linear-gradient(145deg,#ffffff35,#ffffff0c);border:1px solid #ffffff55;
+ border-radius:15px;padding:7px 15px;min-width:85px;box-shadow:0 5px 12px #0003}
+.stat small{display:block;font-size:11px;color:#e7d4ff}
+.stat strong{font-size:21px}
 .controls{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:10px}
-button{font-family:Fredoka;cursor:pointer;border:0}
-.pill{padding:9px 15px;border-radius:30px;color:white;font-weight:700;background:linear-gradient(135deg,#ff54ad,#963bce);box-shadow:0 4px 0 #54217e,0 7px 14px #0004}
-.pill:active{transform:translateY(3px);box-shadow:0 1px 0 #54217e}
-.pill.secondary{background:linear-gradient(135deg,#3979f6,#6551d7);box-shadow:0 4px 0 #283b91}
-#gameWrap{position:relative;width:min(94vw,490px);margin:12px auto 20px}
-#board{position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;border-radius:20px;border:4px solid #ffffff65;background:linear-gradient(145deg,#302064,#24134f);box-shadow:0 12px 35px #08031caa,inset 0 0 20px #0006;touch-action:none}
-.cellbg{position:absolute;width:12.5%;height:12.5%;border:1px solid #ffffff0b;background:#ffffff09}
-.cellbg:nth-child(4n){background:#ffffff12}
-.candy{position:absolute;left:0;top:0;width:12.5%;height:12.5%;padding:5px;display:flex;align-items:center;justify-content:center;z-index:2;transition:transform .27s cubic-bezier(.2,.8,.25,1),opacity .2s,filter .2s;will-change:transform;user-select:none}
-.candy .orb{width:100%;height:100%;border-radius:35%;display:flex;align-items:center;justify-content:center;font-size:clamp(21px,6vw,37px);position:relative;border:2px solid #ffffff80;box-shadow:inset 0 4px 5px #ffffff90,inset 0 -5px 7px #0003,0 4px 5px #0005;transform:rotate(-4deg)}
-.candy .orb:before{content:"";position:absolute;width:35%;height:17%;border-radius:50%;background:#ffffff9c;top:12%;left:17%;transform:rotate(-30deg);filter:blur(1px)}
-.candy.selected .orb{filter:brightness(1.3);outline:3px solid white;transform:scale(1.1) rotate(0)}
-.red{background:linear-gradient(145deg,#ff9caa,#fa2861)}
-.blue{background:linear-gradient(145deg,#9beaff,#2478f5)}
-.green{background:linear-gradient(145deg,#baff9c,#27c56c)}
-.yellow{background:linear-gradient(145deg,#fff5a1,#ffb51f)}
-.purple{background:linear-gradient(145deg,#e5a5ff,#9438e9)}
-.orange{background:linear-gradient(145deg,#ffd09a,#ff762b)}
-.candy.striped .orb{border:3px dashed #fff;box-shadow:0 0 12px #fff,inset 0 0 10px #fff8}
-.candy.wrapped .orb{border:3px solid #fff;box-shadow:0 0 12px #ffb8ff,inset 0 0 12px #fff8}
-.candy.rainbow .orb{background:conic-gradient(#ff4b62,#ffbd38,#f5ef54,#49dc86,#39aaff,#b35aff,#ff4bba,#ff4b62);border:3px solid white;box-shadow:0 0 16px #fff,0 0 22px #ff69d4}
-.candy.popout{opacity:0;filter:brightness(2);transform:scale(.15)!important}
-.candy.spawn{animation:spawn .28s cubic-bezier(.2,1.6,.4,1)}
-@keyframes spawn{from{opacity:0;scale:.3}to{opacity:1;scale:1}}
-#celebration{position:absolute;z-index:10;pointer-events:none;left:50%;top:43%;transform:translate(-50%,-50%) scale(.2);opacity:0;font-family:Bungee,cursive;font-size:clamp(22px,7vw,42px);line-height:1.15;width:120%;color:#fff;text-shadow:0 4px 0 #a3299b,0 7px 0 #5a268d,0 0 18px #ffb9f1;white-space:normal}
-#celebration.show{animation:celebrate 1.35s ease-out forwards}
-@keyframes celebrate{0%{opacity:0;transform:translate(-50%,-50%) scale(.25) rotate(-9deg)}15%{opacity:1;transform:translate(-50%,-50%) scale(1.18) rotate(3deg)}28%{transform:translate(-50%,-50%) scale(1) rotate(0)}78%{opacity:1}100%{opacity:0;transform:translate(-50%,-65%) scale(.9)}}
-.floatScore{position:absolute;z-index:8;pointer-events:none;font-family:Bungee;color:#fff;text-shadow:0 2px 5px #54217e;font-size:16px;animation:floatup .9s ease-out forwards}
-@keyframes floatup{to{transform:translateY(-42px) scale(1.3);opacity:0}}
-.particle{position:absolute;z-index:7;width:8px;height:8px;border-radius:50%;pointer-events:none;animation:particle .65s ease-out forwards}
-@keyframes particle{to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
-#hint{min-height:22px;color:#e9dfff;font-size:13px;margin:5px}
-footer{font-size:11px;color:#bdb0e3;padding:8px 12px 24px}
-#overlay{display:none;position:fixed;inset:0;z-index:30;background:#100829dd;align-items:center;justify-content:center;padding:20px}
+button{font:700 14px Fredoka;cursor:pointer;border:0}
+.btn{padding:10px 16px;border-radius:25px;color:white;
+ background:linear-gradient(135deg,#ff58b2,#a13cce);
+ box-shadow:0 4px #60237e,0 7px 13px #0004}
+.btn:active{transform:translateY(3px);box-shadow:0 1px #60237e}
+.bluebtn{background:linear-gradient(135deg,#44b6ff,#5146ce);box-shadow:0 4px #292c85}
+#game{width:min(95vw,490px);margin:10px auto 18px;position:relative}
+#board{position:relative;width:100%;aspect-ratio:1;overflow:hidden;
+ border:4px solid #d6aaff;border-radius:20px;
+ background:linear-gradient(145deg,#29164e,#39206c);
+ box-shadow:0 12px 35px #08031caa,inset 0 0 20px #0008;
+ touch-action:none}
+.cell{position:absolute;width:12.5%;height:12.5%;
+ border:1px solid #ffffff13;background:#ffffff0a}
+.cell:nth-child(4n){background:#ffffff12}
+.tile{position:absolute;width:12.5%;height:12.5%;padding:4px;
+ display:flex;align-items:center;justify-content:center;z-index:2;
+ transition:transform .38s cubic-bezier(.2,.75,.2,1),opacity .25s,filter .2s;
+ will-change:transform;user-select:none}
+.candy{width:100%;height:100%;position:relative;display:flex;
+ align-items:center;justify-content:center;border-radius:36%;
+ font-size:clamp(22px,6vw,37px);
+ border:2px solid #ffffffa0;
+ box-shadow:inset 0 4px 5px #ffffffb0,inset 0 -6px 8px #0004,0 4px 5px #0006;
+ transform:rotate(-5deg);
+ transition:transform .16s,filter .16s}
+.candy:before{content:"";position:absolute;top:11%;left:18%;width:38%;height:16%;
+ border-radius:50%;background:#ffffffad;filter:blur(1px);transform:rotate(-28deg)}
+.candy:after{content:"";position:absolute;bottom:9%;right:15%;width:17%;height:10%;
+ border-radius:50%;background:#ffffff4a}
+.candy.red{background:linear-gradient(145deg,#ffb0b4,#fa245b)}
+.candy.blue{background:linear-gradient(145deg,#a5f3ff,#1478ed)}
+.candy.green{background:linear-gradient(145deg,#d0ff9c,#28b85c)}
+.candy.yellow{background:linear-gradient(145deg,#fffbb4,#ffb600)}
+.candy.purple{background:linear-gradient(145deg,#f1b0ff,#9135e7)}
+.candy.orange{background:linear-gradient(145deg,#ffe0a5,#ff7625)}
+.candy.choco{background:linear-gradient(145deg,#b77b55,#542417);border-color:#ffe0bd}
+.candy.pink{background:linear-gradient(145deg,#ffd0ed,#f044ad)}
+.tile.selected .candy{transform:scale(1.15) rotate(0);filter:brightness(1.35);
+ outline:3px solid white;box-shadow:0 0 16px white}
+.tile.shaking .candy{animation:shake .42s ease-in-out}
+@keyframes shake{
+ 0%,100%{transform:rotate(0) scale(1)}
+ 20%{transform:rotate(-9deg) scale(1.1)}
+ 40%{transform:rotate(9deg) scale(1.13)}
+ 60%{transform:rotate(-6deg) scale(1.12)}
+ 80%{transform:rotate(5deg) scale(1.08)}
+}
+.tile.clearing{animation:clearCandy .48s ease-in forwards;z-index:5}
+@keyframes clearCandy{
+ 0%{transform:scale(1);opacity:1;filter:brightness(1)}
+ 35%{transform:scale(1.2);opacity:1;filter:brightness(2)}
+ 65%{transform:scale(1.12);opacity:.9}
+ 100%{transform:scale(.05) rotate(35deg);opacity:0}
+}
+.tile.spawn{animation:spawn .4s cubic-bezier(.2,1.7,.3,1)}
+@keyframes spawn{from{opacity:0;transform:scale(.3)}to{opacity:1}}
+.tile.striped .candy{border:3px dashed white;box-shadow:0 0 13px white}
+.tile.wrapped .candy{border:3px solid #fff;box-shadow:0 0 16px #ffb6ff}
+.tile.rainbow .candy{background:conic-gradient(red,#ffbd35,#ffff55,#3de88c,#37aaff,#b84aff,#ff58be,red);
+ border:3px solid white;box-shadow:0 0 18px #fff}
+.tile.rainbow .candy:before{background:#fff}
+#celebrate{position:absolute;z-index:20;left:50%;top:45%;width:120%;
+ transform:translate(-50%,-50%) scale(.2);opacity:0;pointer-events:none;
+ font:clamp(25px,7vw,43px) Bungee;color:#fff;
+ text-shadow:0 4px #b32a98,0 8px #542078,0 0 20px #ffec7a}
+#celebrate.show{animation:wordPop 1.45s ease-out forwards}
+@keyframes wordPop{
+ 0%{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(-10deg)}
+ 15%{opacity:1;transform:translate(-50%,-50%) scale(1.2) rotate(4deg)}
+ 28%{transform:translate(-50%,-50%) scale(1) rotate(0)}
+ 78%{opacity:1}
+ 100%{opacity:0;transform:translate(-50%,-65%) scale(.9)}
+}
+.float{position:absolute;z-index:15;pointer-events:none;font:16px Bungee;
+ color:#fff;text-shadow:0 2px 5px #512477;animation:float .95s ease-out forwards}
+@keyframes float{to{transform:translateY(-48px) scale(1.25);opacity:0}}
+.particle{position:absolute;z-index:12;width:8px;height:8px;border-radius:50%;
+ pointer-events:none;animation:particle .7s ease-out forwards}
+@keyframes particle{to{transform:translate(var(--x),var(--y)) scale(0);opacity:0}}
+#hint{min-height:24px;color:#f7dfff;font-size:13px;margin:5px}
+#help{font-size:11px;color:#d8c8f6;line-height:1.7;margin:10px}
+#overlay{display:none;position:fixed;inset:0;z-index:50;background:#100522df;
+ align-items:center;justify-content:center;padding:20px}
 #overlay.show{display:flex}
-.modal{width:min(90vw,350px);padding:25px 20px;border-radius:24px;background:linear-gradient(145deg,#7544c8,#30205f);border:2px solid #ffffff55;box-shadow:0 15px 50px #0009}
-.modal h2{font-family:Bungee;margin:0 0 8px;color:#ffe36e}
-.modal p{color:#eee3ff}
-@media(max-width:380px){.stat{min-width:78px;padding:7px 9px}.candy{padding:3px}}
+.modal{width:min(90vw,350px);padding:25px;border-radius:25px;
+ background:linear-gradient(145deg,#8b3bc6,#34205e);border:2px solid #fff8;
+ box-shadow:0 15px 50px #0009}
+.modal h2{font:24px Bungee;color:#ffe66d;margin:0 0 10px}
+#boosters{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px auto}
+.boost{border-radius:16px;padding:10px 13px;background:linear-gradient(145deg,#398cf8,#6334c2);
+ color:white;box-shadow:0 4px #25226f}
+.boost.active{outline:3px solid #ffe66d}
+@media(max-width:380px){.tile{padding:3px}.stat{min-width:73px;padding:6px 9px}}
 </style>
 </head>
 <body>
 <header>
-<h1>🍭 CANDY POP MANIA</h1>
-<div class="subtitle">Swipe • Match • Blast • Repeat!</div>
+<h1>🍬 CANDY POP MANIA 🍫</h1>
+<div class="subtitle">The sweetest match adventure!</div>
 </header>
 
 <div class="stats">
@@ -73,358 +137,380 @@ footer{font-size:11px;color:#bdb0e3;padding:8px 12px 24px}
 </div>
 
 <div class="controls">
- <button class="pill" id="newGame">↻ New Game</button>
- <button class="pill secondary" id="hintBtn">✦ Hint</button>
- <button class="pill secondary" id="modeBtn">Adventure</button>
+ <button class="btn" id="new">↻ New Game</button>
+ <button class="btn bluebtn" id="hintBtn">✦ Hint</button>
+ <button class="btn bluebtn" id="mode">Adventure</button>
 </div>
 
-<div id="gameWrap">
- <div id="board" aria-label="Candy game board"></div>
- <div id="celebration"></div>
+<div id="boosters">
+ <button class="boost" data-boost="hammer">🔨 Hammer</button>
+ <button class="boost" data-boost="shuffle">🌀 Shuffle</button>
+ <button class="boost" data-boost="color">🌈 Color Pop</button>
 </div>
-<div id="hint">Swipe a candy to match 3 or more!</div>
-<footer>Match 4 = Striped • Match 5 = Rainbow • T/L = Wrapped Bomb<br>Made for candy lovers ✨</footer>
+
+<div id="game">
+ <div id="board"></div>
+ <div id="celebrate"></div>
+</div>
+<div id="hint">Swipe candies to match 3 or more!</div>
+<div id="help">
+ 4 in a row = STRIPED CANDY ✨ &nbsp; 5 in a row = RAINBOW 🌈<br>
+ T or L match = WRAPPED BOMB 💣 &nbsp; Combine specials for BIG BLASTS!
+</div>
 
 <div id="overlay">
  <div class="modal">
   <h2 id="endTitle">SUGAR RUSH!</h2>
   <p id="endText">Great game!</p>
-  <button class="pill" id="againBtn">Play Again 🍬</button>
+  <button class="btn" id="again">Play Again 🍬</button>
  </div>
 </div>
 
 <script>
 (()=>{
-const N=8, COLORS=["red","blue","green","yellow","purple","orange"];
-const EMOJI={red:"🍓",blue:"💎",green:"🍏",yellow:"🍋",purple:"🍇",orange:"🍊"};
-const boardEl=document.getElementById("board");
-const scoreEl=document.getElementById("score"),movesEl=document.getElementById("moves"),bestEl=document.getElementById("best");
-const hintEl=document.getElementById("hint"),celebration=document.getElementById("celebration");
-let grid=[],nodes=new Map(),nextId=1,score=0,moves=30,best=Number(localStorage.getItem("cpmBest")||0);
-let busy=false,selected=null,mode="Adventure",endless=false,celebrateTimer=null,lastSwap=null;
+"use strict";
+const SIZE=8;
+const TYPES=[
+ {color:"red",icon:"🍓"},{color:"blue",icon:"🫐"},
+ {color:"green",icon:"🍏"},{color:"yellow",icon:"🍋"},
+ {color:"purple",icon:"🍇"},{color:"orange",icon:"🍊"},
+ {color:"choco",icon:"🍫"},{color:"pink",icon:"🍬"}
+];
+const board=document.getElementById("board");
+const scoreEl=document.getElementById("score");
+const movesEl=document.getElementById("moves");
+const bestEl=document.getElementById("best");
+const word=document.getElementById("celebrate");
+const hintEl=document.getElementById("hint");
+let grid=[],nodes=new Map(),id=1,score=0,moves=30,best=+(localStorage.cpmBest||0);
+let busy=false,selected=null,mode="Adventure",endless=false,boost=null,lastSwap=null;
+let wordTimer=null;
 bestEl.textContent=best;
 
-function candy(color,special=""){
- return {id:nextId++,color,special};
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const key=(r,c)=>r+","+c;
+const pos=k=>k.split(",").map(Number);
+const inside=(r,c)=>r>=0&&r<SIZE&&c>=0&&c<SIZE;
+const randomType=()=>TYPES[Math.floor(Math.random()*TYPES.length)];
+const makeCandy=(type)=>({id:id++,color:type.color,icon:type.icon,special:"",direction:"h"});
+function say(t){hintEl.textContent=t}
+function popWord(t){
+ word.textContent=t;word.classList.remove("show");void word.offsetWidth;
+ word.classList.add("show");clearTimeout(wordTimer);
+ wordTimer=setTimeout(()=>word.classList.remove("show"),1500);
 }
-function randomColor(){return COLORS[Math.floor(Math.random()*COLORS.length)]}
-function key(r,c){return r+","+c}
-function coords(k){return k.split(",").map(Number)}
-function inside(r,c){return r>=0&&r<N&&c>=0&&c<N}
-function sleep(ms){return new Promise(resolve=>setTimeout(resolve,ms))}
-function setHint(t){hintEl.textContent=t}
-function makeBoard(){
- grid=Array.from({length:N},()=>Array(N).fill(null));
- for(let r=0;r<N;r++)for(let c=0;c<N;c++){
-  let col;
-  do{col=randomColor()}while(
-   (c>=2&&grid[r][c-1]?.color===col&&grid[r][c-2]?.color===col)||
-   (r>=2&&grid[r-1][c]?.color===col&&grid[r-2][c]?.color===col)
+function newBoard(){
+ grid=Array.from({length:SIZE},()=>Array(SIZE).fill(null));
+ for(let r=0;r<SIZE;r++)for(let c=0;c<SIZE;c++){
+  let t;
+  do{t=randomType()}while(
+   c>=2&&grid[r][c-1].color===t.color&&grid[r][c-2].color===t.color ||
+   r>=2&&grid[r-1][c].color===t.color&&grid[r-2][c].color===t.color
   );
-  grid[r][c]=candy(col);
+  grid[r][c]=makeCandy(t);
  }
 }
-function initBackground(){
- boardEl.querySelectorAll(".cellbg").forEach(x=>x.remove());
- for(let r=0;r<N;r++)for(let c=0;c<N;c++){
-  const d=document.createElement("div");d.className="cellbg";
-  d.style.left=(c*12.5)+"%";d.style.top=(r*12.5)+"%";
-  boardEl.appendChild(d);
+function buildBackground(){
+ board.innerHTML="";
+ for(let r=0;r<SIZE;r++)for(let c=0;c<SIZE;c++){
+  let e=document.createElement("div");e.className="cell";
+  e.style.left=c*12.5+"%";e.style.top=r*12.5+"%";board.appendChild(e);
  }
+ nodes.clear();
 }
 function render(){
- const live=new Set();
- const size=boardEl.clientWidth/N;
- for(let r=0;r<N;r++)for(let c=0;c<N;c++){
+ const size=board.clientWidth/SIZE,live=new Set();
+ for(let r=0;r<SIZE;r++)for(let c=0;c<SIZE;c++){
   const x=grid[r][c];if(!x)continue;
   live.add(x.id);
   let el=nodes.get(x.id);
   if(!el){
-   el=document.createElement("div");el.className="candy spawn";
+   el=document.createElement("div");el.className="tile spawn";
    el.dataset.id=x.id;
-   const orb=document.createElement("div");orb.className="orb";
-   el.appendChild(orb);boardEl.appendChild(el);nodes.set(x.id,el);
+   const candy=document.createElement("div");candy.className="candy";
+   el.appendChild(candy);board.appendChild(el);nodes.set(x.id,el);
    requestAnimationFrame(()=>el.classList.remove("spawn"));
   }
-  el.className="candy"+(selected&&selected.r===r&&selected.c===c?" selected":"")+(x.special?" "+x.special:"");
-  const orb=el.firstChild;
-  orb.className="orb "+x.color;
-  orb.textContent=x.special==="rainbow"?"🌈":x.special==="wrapped"?"💣":x.special==="striped"?(x.direction==="v"?"↕":"↔"):EMOJI[x.color];
+  el.className="tile"+(x.special?" "+x.special:"")+
+   (selected&&selected.r===r&&selected.c===c?" selected":"");
+  const face=el.firstChild;face.className="candy "+x.color;
+  face.textContent=x.special==="rainbow"?"🌈":
+   x.special==="wrapped"?"💣":
+   x.special==="striped"?(x.direction==="v"?"↕":"↔"):x.icon;
   el.style.width=size+"px";el.style.height=size+"px";
   el.style.transform=`translate(${c*size}px,${r*size}px)`;
  }
- for(const [id,el] of nodes){
-  if(!live.has(id)){
-   el.classList.add("popout");
-   setTimeout(()=>{el.remove();nodes.delete(id)},230);
-  }
+ for(const [i,el] of nodes){
+  if(!live.has(i)){el.remove();nodes.delete(i)}
  }
  scoreEl.textContent=score.toLocaleString();
  movesEl.textContent=endless?"∞":moves;
  bestEl.textContent=best.toLocaleString();
 }
-function showWords(word){
- celebration.textContent=word;
- celebration.classList.remove("show");
- void celebration.offsetWidth;
- celebration.classList.add("show");
- clearTimeout(celebrateTimer);
- celebrateTimer=setTimeout(()=>celebration.classList.remove("show"),1450);
-}
-function floating(text,r,c){
- const size=boardEl.clientWidth/N;
- const el=document.createElement("div");el.className="floatScore";el.textContent=text;
- el.style.left=(c*size+size/2-22)+"px";el.style.top=(r*size+size/2-12)+"px";
- boardEl.appendChild(el);setTimeout(()=>el.remove(),950);
-}
-function burst(r,c){
- const size=boardEl.clientWidth/N;
- for(let i=0;i<7;i++){
+function fx(r,c){
+ const size=board.clientWidth/SIZE;
+ const e=document.createElement("div");e.className="float";
+ e.textContent="+"+Math.round(60);
+ e.style.left=(c*size+size/2-20)+"px";
+ e.style.top=(r*size+size/2-10)+"px";
+ board.appendChild(e);setTimeout(()=>e.remove(),1000);
+ for(let i=0;i<9;i++){
   const p=document.createElement("i");p.className="particle";
   p.style.left=(c*size+size/2)+"px";p.style.top=(r*size+size/2)+"px";
-  p.style.background=["#fff36c","#ff69bd","#7ceaff","#aaff8a"][i%4];
-  p.style.setProperty("--dx",(Math.random()*90-45)+"px");
-  p.style.setProperty("--dy",(Math.random()*90-45)+"px");
-  boardEl.appendChild(p);setTimeout(()=>p.remove(),700);
+  p.style.background=["#fff16d","#ff69bc","#6eeaff","#aaff89"][i%4];
+  p.style.setProperty("--x",(Math.random()*100-50)+"px");
+  p.style.setProperty("--y",(Math.random()*100-50)+"px");
+  board.appendChild(p);setTimeout(()=>p.remove(),750);
  }
 }
-function findMatches(){
+function matches(){
  const runs=[];
- for(let r=0;r<N;r++){
+ for(let r=0;r<SIZE;r++){
   let c=0;
-  while(c<N){
+  while(c<SIZE){
    let end=c+1;
-   while(end<N&&grid[r][end]&&grid[r][c]&&grid[r][end].color===grid[r][c].color&&!grid[r][end].special&&!grid[r][c].special)end++;
-   if(grid[r][c]&&!grid[r][c].special&&end-c>=3)runs.push({cells:Array.from({length:end-c},(_,i)=>key(r,c+i)),dir:"h",len:end-c});
+   while(end<SIZE&&grid[r][c]&&grid[r][end]&&grid[r][c].color===grid[r][end].color)end++;
+   if(grid[r][c]&&end-c>=3)runs.push({cells:Array.from({length:end-c},(_,i)=>key(r,c+i)),dir:"h",len:end-c});
    c=end;
   }
  }
- for(let c=0;c<N;c++){
+ for(let c=0;c<SIZE;c++){
   let r=0;
-  while(r<N){
+  while(r<SIZE){
    let end=r+1;
-   while(end<N&&grid[end][c]&&grid[r][c]&&grid[end][c].color===grid[r][c].color&&!grid[end][c].special&&!grid[r][c].special)end++;
-   if(grid[r][c]&&!grid[r][c].special&&end-r>=3)runs.push({cells:Array.from({length:end-r},(_,i)=>key(r+i,c)),dir:"v",len:end-r});
+   while(end<SIZE&&grid[r][c]&&grid[end][c]&&grid[r][c].color===grid[end][c].color)end++;
+   if(grid[r][c]&&end-r>=3)runs.push({cells:Array.from({length:end-r},(_,i)=>key(r+i,c)),dir:"v",len:end-r});
    r=end;
   }
  }
- // Merge crossing and touching runs into match groups.
  const groups=[];
  for(const run of runs){
-  let touching=groups.filter(g=>run.cells.some(k=>g.cells.has(k)));
+  const touching=groups.filter(g=>run.cells.some(k=>g.cells.has(k)));
   if(!touching.length){groups.push({cells:new Set(run.cells),runs:[run]});continue}
-  const first=touching[0];
-  run.cells.forEach(k=>first.cells.add(k));first.runs.push(run);
-  for(const other of touching.slice(1)){other.cells.forEach(k=>first.cells.add(k));first.runs.push(...other.runs);groups.splice(groups.indexOf(other),1)}
+  const g=touching[0];run.cells.forEach(k=>g.cells.add(k));g.runs.push(run);
+  for(const other of touching.slice(1)){
+   other.cells.forEach(k=>g.cells.add(k));g.runs.push(...other.runs);
+   groups.splice(groups.indexOf(other),1);
+  }
  }
  return groups;
 }
-function specialFor(group){
- const runs=group.runs;
- if(runs.some(a=>a.dir==="h")&&runs.some(a=>a.dir==="v"))return "wrapped";
- if(runs.some(a=>a.len>=5))return "rainbow";
- if(runs.some(a=>a.len===4))return "striped";
+function typeFor(g){
+ if(g.runs.some(a=>a.dir==="h")&&g.runs.some(a=>a.dir==="v"))return "wrapped";
+ if(g.runs.some(a=>a.len>=5))return "rainbow";
+ if(g.runs.some(a=>a.len===4))return "striped";
  return "";
 }
-function chooseKeep(group){
+function keepCell(g){
  if(lastSwap){
-  for(const p of lastSwap){if(group.cells.has(key(p.r,p.c))&&grid[p.r][p.c])return key(p.r,p.c)}
+  for(const p of lastSwap)if(g.cells.has(key(p.r,p.c)))return key(p.r,p.c);
  }
- return [...group.cells][Math.floor(group.cells.size/2)];
+ return [...g.cells][Math.floor(g.cells.size/2)];
 }
-function activate(k,clear,queue,targetColor){
- const [r,c]=coords(k);if(!inside(r,c))return;
- const x=grid[r][c];if(!x)return;
- if(x.special==="striped"){
-  for(let i=0;i<N;i++){clear.add(key(r,i));clear.add(key(i,c))}
- }else if(x.special==="wrapped"){
-  for(let rr=r-1;rr<=r+1;rr++)for(let cc=c-1;cc<=c+1;cc++)if(inside(rr,cc))clear.add(key(rr,cc));
- }else if(x.special==="rainbow"){
-  const col=targetColor||randomColor();
-  for(let rr=0;rr<N;rr++)for(let cc=0;cc<N;cc++)if(grid[rr][cc]?.color===col)clear.add(key(rr,cc));
- }
-}
-function expandSpecials(clear,targetColor){
+function expandSpecials(clear){
  const queue=[...clear],seen=new Set();
  while(queue.length){
   const k=queue.shift();if(seen.has(k))continue;seen.add(k);
-  const [r,c]=coords(k),x=grid[r]?.[c];
-  if(x?.special){
-   const before=new Set(clear);activate(k,clear,queue,targetColor);
-   for(const item of clear)if(!before.has(item))queue.push(item);
+  const [r,c]=pos(k),x=grid[r]?.[c];if(!x?.special)continue;
+  const add=k2=>{if(!clear.has(k2)){clear.add(k2);queue.push(k2)}};
+  if(x.special==="striped"){
+   for(let i=0;i<SIZE;i++){add(key(r,i));add(key(i,c))}
+  }else if(x.special==="wrapped"){
+   for(let rr=r-1;rr<=r+1;rr++)for(let cc=c-1;cc<=c+1;cc++)if(inside(rr,cc))add(key(rr,cc));
+  }else if(x.special==="rainbow"){
+   for(let rr=0;rr<SIZE;rr++)for(let cc=0;cc<SIZE;cc++)
+    if(grid[rr][cc]?.color===x.targetColor)add(key(rr,cc));
   }
  }
 }
-function comboClear(a,b){
+function combo(a,b){
  const A=grid[a.r][a.c],B=grid[b.r][b.c],clear=new Set();
- if(!A||!B)return clear;
  if(A.special==="rainbow"&&B.special==="rainbow"){
-  for(let r=0;r<N;r++)for(let c=0;c<N;c++)clear.add(key(r,c));
+  for(let r=0;r<SIZE;r++)for(let c=0;c<SIZE;c++)clear.add(key(r,c));
  }else if(A.special==="rainbow"||B.special==="rainbow"){
   const rainbow=A.special==="rainbow"?A:B,other=rainbow===A?B:A;
-  const target=other.color;
-  for(let r=0;r<N;r++)for(let c=0;c<N;c++){
+  for(let r=0;r<SIZE;r++)for(let c=0;c<SIZE;c++){
    const x=grid[r][c];
-   if(x?.color===target){
-    if(other.special){x.special=other.special;x.direction=other.direction}
+   if(x?.color===other.color){
+    if(other.special){x.special=other.special;x.targetColor=other.color}
     clear.add(key(r,c));
    }
   }
-  expandSpecials(clear,target);
+  for(const k of clear){const [r,c]=pos(k);if(grid[r][c])grid[r][c].targetColor=other.color}
+  expandSpecials(clear);
  }else if(A.special==="striped"&&B.special==="striped"){
-  for(let i=0;i<N;i++){clear.add(key(a.r,i));clear.add(key(i,a.c));clear.add(key(b.r,i));clear.add(key(i,b.c))}
+  for(let i=0;i<SIZE;i++){
+   clear.add(key(a.r,i));clear.add(key(i,a.c));
+   clear.add(key(b.r,i));clear.add(key(i,b.c));
+  }
  }else if(A.special==="wrapped"&&B.special==="wrapped"){
   for(let r=Math.min(a.r,b.r)-2;r<=Math.max(a.r,b.r)+2;r++)
    for(let c=Math.min(a.c,b.c)-2;c<=Math.max(a.c,b.c)+2;c++)if(inside(r,c))clear.add(key(r,c));
  }else{
-  // Striped + wrapped: cross blast with a larger center explosion.
-  const center={r:b.r,c:b.c};
-  for(let i=0;i<N;i++){clear.add(key(a.r,i));clear.add(key(i,a.c))}
-  for(let r=center.r-2;r<=center.r+2;r++)for(let c=center.c-2;c<=center.c+2;c++)if(inside(r,c))clear.add(key(r,c));
+  for(let i=0;i<SIZE;i++){clear.add(key(a.r,i));clear.add(key(i,a.c))}
+  for(let r=b.r-2;r<=b.r+2;r++)for(let c=b.c-2;c<=b.c+2;c++)if(inside(r,c))clear.add(key(r,c));
  }
- return clear;
+ expandSpecials(clear);return clear;
 }
 function gravity(){
- for(let c=0;c<N;c++){
-  let write=N-1;
-  for(let r=N-1;r>=0;r--)if(grid[r][c]){
+ for(let c=0;c<SIZE;c++){
+  let write=SIZE-1;
+  for(let r=SIZE-1;r>=0;r--)if(grid[r][c]){
    const x=grid[r][c];grid[r][c]=null;grid[write][c]=x;write--;
   }
-  for(let r=write;r>=0;r--)grid[r][c]=candy(randomColor());
+  for(let r=write;r>=0;r--)grid[r][c]=makeCandy(randomType());
  }
 }
-function celebrationFor(groups,chain){
- const size=Math.max(...groups.map(g=>g.cells.size),0);
- if(chain>=3)return "UNBELIEVABLE!";
- if(groups.some(g=>specialFor(g)==="wrapped"))return "TREMENDOUS!";
- if(groups.some(g=>specialFor(g)==="rainbow"))return "EPIC!";
- if(groups.some(g=>specialFor(g)==="striped"))return "SWEET!";
- if(size>=6)return "SUGAR RUSH!";
- return chain>1?"AMAZING!":"NICE!";
+function words(groups,chain){
+ if(chain>=4)return "UNBELIEVABLE!";
+ if(groups.some(g=>typeFor(g)==="wrapped"))return "TREMENDOUS!";
+ if(groups.some(g=>typeFor(g)==="rainbow"))return "EPIC!";
+ if(groups.some(g=>typeFor(g)==="striped"))return "SWEET!";
+ if(chain>=2)return "AMAZING!";
+ if(groups.some(g=>g.cells.size>=6))return "SUGAR RUSH!";
+ return "DELICIOUS!";
 }
-async function resolve(initialClear=null,targetColor=null){
- let chain=0,clear=initialClear;
+async function resolve(initial=null){
+ let chain=0,clear=initial;
  while(chain<12){
-  const groups=findMatches();
-  if(!clear&&groups.length===0)break;
-  chain++;
-  if(!clear)clear=new Set();
-  let created=[];
+  let groups=matches();
+  if(!clear&&!groups.length)break;
+  chain++;clear=clear||new Set();
   for(const g of groups){
-   const type=specialFor(g);
-   if(type){
-    const keep=chooseKeep(g),[r,c]=coords(keep),x=grid[r][c];
-    if(x){x.special=type;x.direction=g.runs.find(run=>run.len===4)?.dir||"h";created.push({r,c,type})}
-    g.cells.forEach(k=>{if(k!==keep)clear.add(k)});
-   }else g.cells.forEach(k=>clear.add(k));
+   const special=typeFor(g);
+   if(special){
+    const keep=keepCell(g),[r,c]=pos(keep),x=grid[r][c];
+    if(x){x.special=special;x.direction=g.runs.find(a=>a.len===4)?.dir||"h";
+     x.targetColor=x.color}
+    for(const k of g.cells)if(k!==keep)clear.add(k);
+   }else for(const k of g.cells)clear.add(k);
   }
-  expandSpecials(clear,targetColor);
-  if(!clear.size)break;
-  let count=0,points=[];
-  for(const k of clear){
-   const [r,c]=coords(k),x=grid[r][c];
-   if(x){points.push({r,c});count++}
+  expandSpecials(clear);
+  const points=[];
+  for(const k of clear){const [r,c]=pos(k);if(grid[r][c])points.push({r,c})}
+  if(!points.length)break;
+  popWord(words(groups,chain));
+  const gain=points.length*60*chain;score+=gain;
+  if(score>best){best=score;localStorage.cpmBest=best}
+  for(const p of points){
+   const el=nodes.get(grid[p.r][p.c].id);
+   if(el){el.classList.add("clearing","shaking")}
+   fx(p.r,p.c);
   }
-  if(!count)break;
-  const gained=count*60*chain;
-  score+=gained;
-  if(score>best){best=score;localStorage.setItem("cpmBest",best)}
-  if(groups.length||chain>1||created.length)showWords(celebrationFor(groups.length?groups:[{cells:clear,runs:[]}],chain));
-  for(const p of points){floating("+"+Math.round(gained/count),p.r,p.c);burst(p.r,p.c)}
-  for(const k of clear){const [r,c]=coords(k);grid[r][c]=null}
   render();
-  await sleep(230);
+  // Slow, satisfying match pause — no instant blinking.
+  await sleep(480);
+  for(const p of points)grid[p.r][p.c]=null;
+  render();
+  await sleep(90);
   gravity();render();
-  await sleep(310);
-  clear=null;targetColor=null;
+  // Give falling candies time to settle before checking cascades.
+  await sleep(440);
+  clear=null;
  }
  render();
- if(!endless&&moves<=0){finish()}
+ if(!endless&&moves<=0)finish();
 }
 async function swap(a,b){
- if(busy||!inside(b.r,b.c)||!inside(a.r,a.c)||Math.abs(a.r-b.r)+Math.abs(a.c-b.c)!==1)return;
+ if(busy||!inside(b.r,b.c)||Math.abs(a.r-b.r)+Math.abs(a.c-b.c)!==1)return;
  const A=grid[a.r][a.c],B=grid[b.r][b.c];if(!A||!B)return;
  busy=true;selected=null;lastSwap=[a,b];
  [grid[a.r][a.c],grid[b.r][b.c]]=[B,A];render();
- await sleep(180);
- let clear=null;
- if(A.special||B.special){
-  clear=comboClear(a,b);
-  if(!clear.size){clear=new Set([key(a.r,a.c),key(b.r,b.c)]);expandSpecials(clear,B.color)}
- }else{
-  const groups=findMatches();
-  if(!groups.length){
-   [grid[a.r][a.c],grid[b.r][b.c]]=[A,B];render();
-   await sleep(170);lastSwap=null;busy=false;return;
-  }
+ await sleep(260);
+ let clear;
+ if(A.special||B.special)clear=combo(a,b);
+ else if(matches().length)clear=null;
+ else{
+  [grid[a.r][a.c],grid[b.r][b.c]]=[A,B];render();
+  await sleep(220);lastSwap=null;busy=false;return;
  }
  if(!endless)moves--;
- await resolve(clear,B.color);
+ await resolve(clear);
  lastSwap=null;busy=false;
  if(!endless&&moves<=0)finish();
 }
-function findHint(){
- for(let r=0;r<N;r++)for(let c=0;c<N;c++){
-  for(const [dr,dc] of [[0,1],[1,0]]){
-   const rr=r+dr,cc=c+dc;if(!inside(rr,cc))continue;
-   [grid[r][c],grid[rr][cc]]=[grid[rr][cc],grid[r][c]];
-   const yes=findMatches().length>0||grid[r][c]?.special||grid[rr][cc]?.special;
-   [grid[r][c],grid[rr][cc]]=[grid[rr][cc],grid[r][c]];
-   if(yes)return [{r,c},{r:rr,c:cc}];
-  }
+function hint(){
+ for(let r=0;r<SIZE;r++)for(let c=0;c<SIZE;c++)for(const [dr,dc] of [[0,1],[1,0]]){
+  const rr=r+dr,cc=c+dc;if(!inside(rr,cc))continue;
+  [grid[r][c],grid[rr][cc]]=[grid[rr][cc],grid[r][c]];
+  const ok=matches().length>0||grid[r][c].special||grid[rr][cc].special;
+  [grid[r][c],grid[rr][cc]]=[grid[rr][cc],grid[r][c]];
+  if(ok)return [{r,c},{r:rr,c:cc}];
  }
  return null;
 }
 function finish(){
  document.getElementById("endTitle").textContent="SUGAR RUSH!";
- document.getElementById("endText").textContent="You scored "+score.toLocaleString()+" points!";
+ document.getElementById("endText").textContent="Your score: "+score.toLocaleString();
  document.getElementById("overlay").classList.add("show");
 }
 function start(){
- score=0;moves=30;busy=false;selected=null;lastSwap=null;
- endless=mode==="Endless";
- makeBoard();initBackground();
- // Clear any old candy nodes and references.
- for(const el of nodes.values())el.remove();nodes.clear();
- render();setHint(endless?"Endless mode — keep matching!":"Make every move count. Good luck!");
+ score=0;moves=30;busy=false;selected=null;lastSwap=null;boost=null;
+ endless=mode==="Endless";newBoard();buildBackground();render();
+ say(endless?"Endless mode — play as long as you like!":"Swipe to match candies and make combos!");
  document.getElementById("overlay").classList.remove("show");
+ document.querySelectorAll(".boost").forEach(b=>b.classList.remove("active"));
 }
-let pointerStart=null;
-boardEl.addEventListener("pointerdown",e=>{
+let down=null;
+board.addEventListener("pointerdown",e=>{
  if(busy)return;
- const rect=boardEl.getBoundingClientRect(),size=rect.width/N;
- const c=Math.floor((e.clientX-rect.left)/size),r=Math.floor((e.clientY-rect.top)/size);
- if(!inside(r,c))return;
- pointerStart={r,c,x:e.clientX,y:e.clientY};
- boardEl.setPointerCapture?.(e.pointerId);
+ const rect=board.getBoundingClientRect(),s=rect.width/SIZE;
+ const c=Math.floor((e.clientX-rect.left)/s),r=Math.floor((e.clientY-rect.top)/s);
+ if(inside(r,c))down={r,c,x:e.clientX,y:e.clientY};
 });
-boardEl.addEventListener("pointerup",e=>{
- if(!pointerStart||busy)return;
- const startPos=pointerStart;pointerStart=null;
- const dx=e.clientX-startPos.x,dy=e.clientY-startPos.y;
- if(Math.max(Math.abs(dx),Math.abs(dy))>12){
-  let r=startPos.r,c=startPos.c;
-  if(Math.abs(dx)>Math.abs(dy))c+=dx>0?1:-1;else r+=dy>0?1:-1;
-  swap(startPos,{r,c});
- }else{
-  if(!selected){selected=startPos;render()}
-  else if(selected.r===startPos.r&&selected.c===startPos.c){selected=null;render()}
-  else if(Math.abs(selected.r-startPos.r)+Math.abs(selected.c-startPos.c)===1){swap(selected,startPos)}
-  else{selected=startPos;render()}
+board.addEventListener("pointerup",e=>{
+ if(!down||busy)return;
+ const a=down;down=null;
+ const dx=e.clientX-a.x,dy=e.clientY-a.y;
+ if(boost){
+  useBoost(a);return;
  }
+ if(Math.max(Math.abs(dx),Math.abs(dy))>12){
+  let r=a.r,c=a.c;
+  if(Math.abs(dx)>Math.abs(dy))c+=dx>0?1:-1;else r+=dy>0?1:-1;
+  swap(a,{r,c});
+ }else if(!selected){selected=a;render()}
+ else if(selected.r===a.r&&selected.c===a.c){selected=null;render()}
+ else if(Math.abs(selected.r-a.r)+Math.abs(selected.c-a.c)===1)swap(selected,a);
+ else{selected=a;render()}
 });
-document.getElementById("newGame").onclick=start;
-document.getElementById("againBtn").onclick=start;
-document.getElementById("modeBtn").onclick=()=>{
- mode=mode==="Adventure"?"Endless":"Adventure";
- document.getElementById("modeBtn").textContent=mode;
- start();
-};
+function chooseBoost(name){
+ if(busy)return;
+ boost=boost===name?null:name;
+ document.querySelectorAll(".boost").forEach(b=>b.classList.toggle("active",b.dataset.boost===boost));
+ say(boost?"Tap a candy to use "+boost+"!":"Booster cancelled");
+}
+async function useBoost(p){
+ if(!boost)return;
+ const name=boost;boost=null;busy=true;
+ document.querySelectorAll(".boost").forEach(b=>b.classList.remove("active"));
+ const clear=new Set();
+ if(name==="hammer")clear.add(key(p.r,p.c));
+ if(name==="color"){
+  const target=grid[p.r][p.c].color;
+  for(let r=0;r<SIZE;r++)for(let c=0;c<SIZE;c++)if(grid[r][c].color===target)clear.add(key(r,c));
+ }
+ if(name==="shuffle"){
+  const all=grid.flat().sort(()=>Math.random()-.5);
+  grid=Array.from({length:SIZE},(_,r)=>all.slice(r*SIZE,(r+1)*SIZE));
+  render();await sleep(300);
+  // If shuffle creates a match, resolve it.
+  if(matches().length)await resolve();busy=false;return;
+ }
+ await resolve(clear);busy=false;
+}
+document.querySelectorAll(".boost").forEach(b=>b.onclick=()=>chooseBoost(b.dataset.boost));
+document.getElementById("new").onclick=start;
+document.getElementById("again").onclick=start;
 document.getElementById("hintBtn").onclick=()=>{
  if(busy)return;
- const pair=findHint();
- if(pair){selected=pair[0];render();setHint("Try this move! ✨");setTimeout(()=>{selected=null;render()},1100)}
- else setHint("No moves found — start a new game!");
+ const h=hint();
+ if(h){selected=h[0];render();say("Try this move! ✨");setTimeout(()=>{selected=null;render()},1200)}
+ else say("No moves found!");
+};
+document.getElementById("mode").onclick=()=>{
+ mode=mode==="Adventure"?"Endless":"Adventure";
+ document.getElementById("mode").textContent=mode;start();
 };
 window.addEventListener("resize",render);
 start();
